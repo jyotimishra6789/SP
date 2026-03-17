@@ -14,15 +14,42 @@ needed = trusted_count - fraud_count
 
 def simulate_fraud_on_session(df):
     df = df.copy()
+    bot_type = np.random.choice(['linear', 'teleport', 'click_stamper'])
     
-    # Add jitter instead of huge jumps
-    df['screen_x'] += np.random.normal(0, 50, size=len(df))
-    df['screen_y'] += np.random.normal(0, 50, size=len(df))
+    n_points = len(df)
     
-    # Irregular and fast click patterns
-    df['timestamp'] = df['timestamp'].diff().fillna(0.1) * np.random.uniform(0.01, 0.5)
-    df['event_type'] = np.random.choice([0, 1, 2], size=len(df))
-    
+    if bot_type == 'linear':
+        # Bot moving in a perfectly straight line at constant speed
+        start_x, end_x = np.random.randint(0, 1920, 2)
+        start_y, end_y = np.random.randint(0, 1080, 2)
+        df['screen_x'] = np.linspace(start_x, end_x, n_points)
+        df['screen_y'] = np.linspace(start_y, end_y, n_points)
+        
+        # Constant time interval between events (e.g. perfect 16ms loop)
+        dt = np.random.choice([16.0, 32.0, 50.0])
+        df['timestamp'] = df['timestamp'].iloc[0] + np.arange(n_points) * dt
+        
+    elif bot_type == 'teleport':
+        # Instantly jumps across the screen in 0-1ms
+        df['screen_x'] = np.random.randint(0, 1920, n_points)
+        df['screen_y'] = np.random.randint(0, 1080, n_points)
+        
+        # The time delta between points is basically zero (impossible for humans)
+        df['timestamp'] = df['timestamp'].iloc[0] + np.arange(n_points) * np.random.uniform(0.1, 1.0)
+        
+    elif bot_type == 'click_stamper':
+        # Clicks extremely fast with unnatural patterns
+        base_x = np.random.randint(0, 1920)
+        base_y = np.random.randint(0, 1080)
+        
+        # Tiny tight cluster of movements
+        df['screen_x'] = base_x + np.random.normal(0, 2, n_points)
+        df['screen_y'] = base_y + np.random.normal(0, 2, n_points)
+        
+        # 1 = mousedown, 2 = mouseup. Simulates impossible 2ms click duration
+        df['event_type'] = np.random.choice([1, 2], n_points)
+        df['timestamp'] = df['timestamp'].iloc[0] + np.arange(n_points) * np.random.uniform(1.0, 5.0)
+
     df['is_fraud'] = 1
     return df
 
