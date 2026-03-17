@@ -42,5 +42,3 @@ balanced_df.to_csv("balanced_augmented_mouse_data.csv", index=False)
 
 print("Balanced dataset saved as 'balanced_augmented_mouse_data.csv'")
 print(balanced_df['is_fraud'].value_counts())
-
-
