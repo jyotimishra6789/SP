@@ -8,40 +8,22 @@ function App() {
 
   // More deterministic human-like values
   const generateHumanLikeData = () => {
-    const avg_speed = 120 + Math.random() * 30;
-    const max_speed = 250 + Math.random() * 50;
-    const min_speed = 5 + Math.random() * 5;
-    const std_speed = 20 + Math.random() * 15;
-
-    const acceleration_mean = 0 + Math.random() * 10;
-    const acceleration_std = 30 + Math.random() * 10;
-
-    const curvature_mean = 2.5 + Math.random() * 2;
-
-    const num_events = Math.floor(80 + Math.random() * 20);
-    const event_clicks = Math.floor(3 + Math.random() * 2);
-
-    const time_span = 12 + Math.random() * 4;
-    const click_rate = event_clicks / time_span;
-    const time_per_event = time_span / num_events;
-    const clicks_per_event = event_clicks / num_events;
-    const click_interval_mean = event_clicks > 1 ? time_span / (event_clicks - 1) : 0;
-
+    // Generate data that matches the true human statistical distribution
     return {
-      avg_speed,
-      max_speed,
-      min_speed,
-      std_speed,
-      acceleration_mean,
-      acceleration_std,
-      curvature_mean,
-      num_events,
-      event_clicks,
-      click_rate,
-      time_span,
-      click_interval_mean,
-      time_per_event,
-      clicks_per_event
+      avg_speed: 2.6 + (Math.random() - 0.5) * 1.5,
+      max_speed: 18.1 + (Math.random() - 0.5) * 10,
+      min_speed: 0,
+      std_speed: 3.5 + (Math.random() - 0.5) * 2,
+      acceleration_mean: 0.02 + (Math.random() - 0.5) * 0.05,
+      acceleration_std: 3.6 + (Math.random() - 0.5) * 2,
+      curvature_mean: 76000 + (Math.random() - 0.5) * 10000,
+      num_events: Math.floor(85 + (Math.random() * 25)),
+      event_clicks: 0,
+      click_rate: 0,
+      time_span: 600 + Math.random() * 50,
+      click_interval_mean: 0,
+      time_per_event: 5.6 + (Math.random() - 0.5) * 2,
+      clicks_per_event: 0
     };
   };
 

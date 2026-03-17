@@ -1,0 +1,15 @@
+avg_speed                  2.609111
+max_speed                 18.162849
+min_speed                  0.000000
+std_speed                  3.522463
+acceleration_mean          0.020849
+acceleration_std           3.618665
+curvature_mean         76271.573617
+num_events                96.941667
+event_clicks               0.008333
+click_rate                 0.000197
+time_span                620.534492
+click_interval_mean        0.000000
+time_per_event             5.668132
+clicks_per_event           0.000103
+dtype: float64
